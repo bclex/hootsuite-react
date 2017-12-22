@@ -18,7 +18,7 @@ export default class Icon extends Component {
       const { containerClassName, ...pprops } = props;
       const ccontainerClassName = classnames(containerClassName, 'hs_container');
       return (
-        <Container className={ccontainerClassName} ref={node => { this.iconContainer = node; }}>
+        <Container className={ccontainerClassName} ref={(node) => { this.iconContainer = node; }}>
           <span className={`icon-app-dir x-${icon}`} { ...pprops} />;
         </Container>
       );

@@ -3,13 +3,12 @@ import createUUID from 'uuid';
 export const uuid = process.env.NODE_ENV === 'test' ? () => '$uuid$' : createUUID;
 
 export function inputChange(e, action) {
-  const { target } = e.target;
-  if (target) {
+  if (e.target) {
     const { value, id } = {
-      value: target.type === 'checkbox' ? target.checked : target.value,
-      id: target.id,
+      value: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+      id: e.target.id,
     };
-    action(target, id, value, null);
+    action(e.target, id, value, null);
   } else {
     const { value, valueFile, id } = {
       value: e.type === 'fileinput' ? (e.value ? e.value.file.name : null) : e.value,
@@ -38,3 +37,10 @@ export function convertDataURIToString(dataURI) {
   const string = String.fromCharCode.apply(null, data);
   return string;
 }
+
+export default {
+  uuid,
+  inputChange,
+  convertDataURIToBinary,
+  convertDataURIToString,
+};
