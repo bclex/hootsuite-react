@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import FormElement from './FormElement';
-import { uuid, handleBinder } from './util';
+import { uuid } from './util';
 
 export default class Textarea extends Component {
   constructor(props) {
     super(props);
     this.state = { id: `input-${uuid()}` };
     this.onChange = this.onChange.bind(this);
-    this.binderProps = handleBinder(props);
   }
 
   onChange(e) {
@@ -22,8 +21,7 @@ export default class Textarea extends Component {
   render() {
     const id = this.props.id || this.state.id;
     const {
-      errorBinder, labelBinder, onBlurBinder,
-      label = this.binderProps.label, required, error = this.binderProps.error, totalCols, cols, ...props
+      label, required, error, totalCols, cols, ...props
     } = this.props;
     if (label || required || error || totalCols || cols) {
       const formElemProps = {
@@ -59,9 +57,6 @@ Textarea.propTypes = {
   cols: PropTypes.number,
   onChange: PropTypes.func,
   textareaRef: PropTypes.func,
-  errorBinder: PropTypes.object,
-  labelBinder: PropTypes.object,
-  onBlurBinder: PropTypes.object,
 };
 
 Textarea.isFormElement = true;

@@ -1,3 +1,4 @@
+import Binder from './Binder';
 import Checkbox from './Checkbox';
 import { TopBar, Messages } from './Content';
 import FieldSet from './FieldSet';
@@ -12,6 +13,7 @@ import Textarea from './Textarea';
 
 // exports
 export {
+  Binder,
   Checkbox,
   TopBar, Messages,
   FieldSet,

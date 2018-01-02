@@ -2,17 +2,6 @@ import createUUID from 'uuid';
 
 export const uuid = process.env.NODE_ENV === 'test' ? () => '$uuid$' : createUUID;
 
-export function handleBinder(props) {
-  let newProps = {};
-  ['error', 'label', 'value', 'onBlur'].forEach(method => {
-    let binder = props[`${method}Binder`];
-    if (!binder) return;
-    if (typeof binder[`${method}For`] === 'function') newProps[method] = binder[`${method}For`](props.id);
-    else if (typeof binder[`${method}Props`] === 'function') binder[`${method}Props`](props, newProps);
-  });
-  return newProps;
-}
-
 export function inputChange(e, action) {
   if (e.target) {
     const { value, id } = {
@@ -50,7 +39,7 @@ export function convertDataURIToString(dataURI) {
 }
 
 export default {
-  uuid, handleBinder,
+  uuid,
   inputChange,
   convertDataURIToBinary,
   convertDataURIToString,

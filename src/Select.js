@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import FormElement from './FormElement';
-import { uuid, handleBinder } from './util';
+import { uuid } from './util';
 
 export default class Select extends Component {
   constructor(props) {
     super(props);
     this.state = { id: `input-${uuid()}` };
-    this.binderProps = handleBinder(props);
   }
 
   onChange(e) {
@@ -21,8 +20,7 @@ export default class Select extends Component {
   render() {
     const id = this.props.id || this.state.id;
     const {
-      errorBinder, labelBinder, onBlurBinder,
-      label = this.binderProps.label, required, error = this.binderProps.error, totalCols, cols, ...props
+      label, required, error, totalCols, cols, ...props
     } = this.props;
     if (label || required || error || totalCols || cols) {
       const formElemProps = {
@@ -59,9 +57,6 @@ Select.propTypes = {
   cols: PropTypes.number,
   error: FormElement.propTypes.error,
   onChange: PropTypes.func,
-  errorBinder: PropTypes.object,
-  labelBinder: PropTypes.object,
-  onBlurBinder: PropTypes.object,
 };
 
 Select.isFormElement = true;
