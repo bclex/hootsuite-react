@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormElement from './FormElement';
+import { handleBinder } from './util';
 
 // [Upload File Component with ReactJS] https://stackoverflow.com/questions/28750489/upload-file-component-with-reactjs
 class Dropzone extends React.Component {
@@ -84,6 +85,10 @@ Dropzone.propTypes = {
 };
 
 export default class FileInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.binderProps = handleBinder(props);
+  }
   onAddFile = (x) => {
     if (this.props.onChange) {
       const newFile = {
@@ -116,8 +121,8 @@ export default class FileInput extends React.Component {
   /* eslint-disable jsx-a11y/href-no-hash */
   render() {
     const {
-      label, required, error, totalCols, cols,
-      value, ...props
+      errorBinder, labelBinder, onBlurBinder,
+      label = this.binderProps.label, required, error = this.binderProps.error, totalCols, cols, value, ...props
     } = this.props;
     const formElemProps = {
       label, required, error, totalCols, cols,
@@ -143,4 +148,7 @@ FileInput.propTypes = {
   cols: PropTypes.number,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  errorBinder: PropTypes.object,
+  labelBinder: PropTypes.object,
+  onBlurBinder: PropTypes.object,
 };

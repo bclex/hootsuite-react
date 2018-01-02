@@ -32,6 +32,7 @@ export class TopBar extends React.Component {
       });
     });
   }
+
   render() {
     const headers = [];
     const menus = [];

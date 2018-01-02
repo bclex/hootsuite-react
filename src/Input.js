@@ -5,13 +5,14 @@ import keycoder from 'keycoder';
 import Icon from './Icon';
 import FormElement from './FormElement';
 import Text from './Text';
-import { uuid } from './util';
+import { uuid, handleBinder } from './util';
 
 export default class Input extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.binderProps = handleBinder(props);
   }
 
   onChange(e) {
@@ -47,7 +48,7 @@ export default class Input extends Component {
   renderIcon(icon, align) {
     return (
       React.isValidElement(icon) ? icon :
-      <Icon icon={icon} className={classnames('hs_icon', `hs_icon--${align}`)} />
+        <Icon icon={icon} className={classnames('hs_icon', `hs_icon--${align}`)} />
     );
   }
 
@@ -79,10 +80,11 @@ export default class Input extends Component {
 
   render() {
     const {
-      id = `input-${uuid()}`, label, required, error, readOnly, totalCols, cols, ...props
+      id = `input-${uuid()}`, label = this.binderProps.label, required, error = this.binderProps.error, readOnly, totalCols, cols, ...props
     } = this.props;
     if (label || required || error || totalCols || cols) {
       const formElemProps = {
+        errorBinder, labelBinder, onBlurBinder,
         id, label, required, error, readOnly, totalCols, cols,
       };
       return (
@@ -140,6 +142,9 @@ Input.propTypes = {
   addonRight: PropTypes.string,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
+  errorBinder: PropTypes.object,
+  labelBinder: PropTypes.object,
+  onBlurBinder: PropTypes.object,
 };
 
 Input.isFormElement = true;

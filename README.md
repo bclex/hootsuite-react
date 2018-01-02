@@ -3,7 +3,7 @@
 ## Install
 
 ```
-$ npm install hootsuite-react
+$ npm install hootsuite-react --save
 ```
 
 ## Example

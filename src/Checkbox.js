@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import FormElement from './FormElement';
-import { uuid } from './util';
+import { uuid, handleBinder } from './util';
 
 export default class Checkbox extends Component {
+  constructor(props) {
+    super(props);
+    this.binderProps = handleBinder(props);
+  }
+
   componentWillReceiveProps(nextProps) {
     const input = this.node.getElementsByTagName('input')[0];
     if (nextProps.defaultChecked !== input.checked) {
@@ -13,7 +18,7 @@ export default class Checkbox extends Component {
   }
 
   renderCheckbox({
-    className, label, checkboxRef, ...props
+    className, label = this.binderProps.label, checkboxRef, ...props
   }) {
     const id = this.props.id || `input-${uuid()}`;
     const checkClassNames = classnames(className, 'hs_checkbox');
@@ -29,7 +34,8 @@ export default class Checkbox extends Component {
 
   render() {
     const {
-      grouped, required, error, totalCols, cols, ...props
+      errorBinder, labelBinder, onBlurBinder,
+      grouped, required, error = this.binderProps.error, totalCols, cols, ...props
     } = this.props;
     const formElemProps = {
       required, error, totalCols, cols,
@@ -60,4 +66,7 @@ Checkbox.propTypes = {
   ]),
   checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,
+  errorBinder: PropTypes.object,
+  labelBinder: PropTypes.object,
+  onBlurBinder: PropTypes.object,
 };
