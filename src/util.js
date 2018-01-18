@@ -19,6 +19,40 @@ export function inputChange(e, action) {
   }
 }
 
+// export function getQueryParam(name, url) {
+//   if (!url) url = window.location.href;
+//   var queryString = url.split('?');
+//   queryString = queryString[queryString.length - 1];
+//   var params = queryString.split('&');
+//   for (var i = 0; i < params.length; i++) {
+//     var splitPair = params[i].split('=');
+//     if (splitPair[0] === name) {
+//       return splitPair[1];
+//     }
+//   }
+// };
+
+export function getQueryParam(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var results = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)').exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+export function getFrameContext() {
+  var ctx = {
+    lang: getQueryParam('lang'),
+    timezone: getQueryParam('timezone'),
+    pid: getQueryParam('pid'),
+    uid: getQueryParam('uid'),
+    ts: getQueryParam('ts'),
+    token: getQueryParam('token'),
+  };
+  return ctx;
+};
+
 export function convertDataURIToBinary(dataURI) {
   const BASE64_MARKER = ';base64,';
   const base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
@@ -41,6 +75,8 @@ export function convertDataURIToString(dataURI) {
 export default {
   uuid,
   inputChange,
+  getQueryParam,
+  getFrameContext,
   convertDataURIToBinary,
   convertDataURIToString,
 };
