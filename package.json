@@ -1,6 +1,6 @@
 {
   "name": "hootsuite-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Hootsuite Deisgn components build with React",
   "main": "lib/index.js",
   "keywords": [

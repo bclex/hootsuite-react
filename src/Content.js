@@ -35,14 +35,18 @@ export class TopBar extends React.Component {
 
   render() {
     const headers = [];
-    const menus = [];
-    React.Children.forEach(this.props.children, (menu, idx) => {
-      if (menu) {
-        const children = React.Children.toArray(menu.props.children);
-        const firstChild = children.shift();
-        headers.push(<li key={idx} className={`hs_topBarControlsBtn hs_${menu.props.name}Btn`} data-dropdown={menu.props.name} title={menu.props.title}>{firstChild}</li>);
-        menus.push(<ul key={idx} className={`hs_topBarDropdown hs_${menu.props.name}Dropdown hs_dropdownMenuList`} data-dropdown={menu.props.name} style={{ display: 'none' }}>{children}</ul>);
+    const elements = React.Children.map(this.props.children, (x, idx) => {
+      if (!x || (x.type !== 'menu' && x.type !== 'header')) {
+        return x;
       }
+      const children = React.Children.toArray(x.props.children);
+      if (x.type === 'header') {
+        headers.push(children);
+        return null;
+      }
+      const firstChild = children.shift();
+      headers.push(<li key={idx} className={`hs_topBarControlsBtn hs_${x.props.name}Btn`} data-dropdown={x.props.name} title={x.props.title}>{firstChild}</li>);
+      return <ul key={idx} className={`hs_topBarDropdown hs_${x.props.name}Dropdown hs_dropdownMenuList`} data-dropdown={x.props.name} style={{ display: 'none' }}>{children}</ul>;
     });
     return (
       <div className="hs_topBar">
@@ -52,7 +56,7 @@ export class TopBar extends React.Component {
           </ul>
           <h1 className="hs_topBarTitle">{this.props.title}</h1>
         </div>
-        {menus}
+        {elements}
       </div>
     );
   }
